@@ -1,0 +1,55 @@
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <ion-col> <!-- Muestra uno u otro dependiendo de si es con o sin COD-->
+        <ng-container *ngIf="chekingByValue === true; then with; else withOut"></ng-container>
+        <ng-template #with>
+          <ion-item button lines="none" detail="true" detail-icon="create-outline" (click)="presentAlert()">
+            <ion-label *ngIf="cod !== ''">
+              <h1>Codigo: {{cod}}</h1>
+            </ion-label>
+            <ion-label *ngIf="cod === ''">
+              <h1>Codigo: xxxxxxxxxxxx</h1>
+            </ion-label>
+          </ion-item>
+        </ng-template>
+        <ng-template #withOut>
+          <ion-label>
+            <h1>Alta sin codigo</h1>
+          </ion-label>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+    <form [formGroup]="productForm">
+      <ion-row>
+        <ion-col>
+          <ion-item fill="outline">
+            <ion-label position="floating">Cantidad</ion-label>
+            <ion-input #amountInput type="number" formControlName="amount" placeholder="1"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size=auto>
+          <ng-container *ngIf="(cod !== '' && chekingByValue) || (cod === '' && !chekingByValue) || (cod !== '' && !chekingByValue); then push; else alert"></ng-container>
+          <ng-template #push>
+            <ion-button size="large" color="main-color" (click)="pushProduct()">
+              <ion-icon name="caret-forward"></ion-icon>
+            </ion-button>
+          </ng-template>
+          <ng-template #alert>
+            <ion-button size="large" color="main-color" (click)="presentAlert()">
+              <ion-icon name="caret-forward"></ion-icon>
+            </ion-button>
+          </ng-template>
+        </ion-col>
+      </ion-row>
+    </form>
+    <ion-row *ngIf="chekingByValue">
+      <ion-col>
+        <ion-button expand="block" color="main-color" (click)="scan()">Escanear<ion-icon name="scan" slot="start">
+          </ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>
+<app-file-product-confirm-list></app-file-product-confirm-list>

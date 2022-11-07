@@ -1,0 +1,72 @@
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="main-color">
+        <ion-buttons slot="secondary">
+          <ion-button (click)="newFileProduct(true)">
+            <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="chekingBy" (click)="searchBy()">
+            <ion-icon slot="icon-only" name="repeat"></ion-icon>
+          </ion-button>
+          <ion-button (click)="setOpen(false)">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ng-container *ngIf="searchby; then cod; else name"></ng-container>
+        <ng-template #cod>
+          <ion-title>Buscar por COD</ion-title>
+        </ng-template>
+        <ng-template #name>
+          <ion-title>Buscar por NOMBRE</ion-title>
+        </ng-template>
+      </ion-toolbar>
+      <ion-toolbar *ngIf="!searchby" color="main-color">
+        <ion-searchbar placeholder="Search" [(ngModel)]="filterTerm" animated="true"></ion-searchbar>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content *ngIf="searchby && !varNewFileProduct">
+      <div *ngIf="fileProducts">
+      <ion-list *ngFor="let fileProduct of fileProducts">
+          <ion-item button (click)="selectItem(fileProduct.id)">
+            <ion-label>
+              <h2><b>Nombre:</b> {{fileProduct.productName}}</h2>
+              <p><b>Marca:</b> {{fileProduct.mark}}</p>
+              <p><b>Cantidad:</b> {{fileProduct.amount}}</p>
+            </ion-label>
+            <ion-badge color="success" *ngIf="fileProduct.scannedProduct">Escanneado</ion-badge>
+            <ion-badge color="danger" *ngIf="!fileProduct.scannedProduct">No Escanneado</ion-badge>
+          </ion-item>
+      </ion-list>
+    </div>
+    <div *ngIf="!fileProducts">
+      <ion-item>
+        <ion-label>
+          No hay productos que coincidan con el codigo
+        </ion-label>
+        <ion-icon name="information-circle" slot="end"></ion-icon>
+      </ion-item>
+    </div>
+    </ion-content>
+
+    <ion-content *ngIf="!searchby && !varNewFileProduct">
+      <ion-list *ngFor="let allFileProduct of allFileProducts | filter: filterTerm"> 
+        <ion-item button (click)="selectItem(allFileProduct.id)">
+          <ion-label>
+            <h2><b>Nombre:</b> {{allFileProduct.productName}}</h2>
+            <p><b>Marca:</b> {{allFileProduct.mark}}</p>
+            <p><b>Cantidad:</b> {{allFileProduct.amount}}</p>
+          </ion-label>
+          <ion-badge color="success" *ngIf="allFileProduct.scannedProduct">Escanneado</ion-badge>
+          <ion-badge color="danger" *ngIf="!allFileProduct.scannedProduct">No Escanneado</ion-badge>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+
+    <ion-content *ngIf="varNewFileProduct">
+      <app-new-file-product></app-new-file-product>
+    </ion-content>
+        
+  </ng-template>
+</ion-modal>

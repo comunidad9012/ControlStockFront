@@ -1,0 +1,32 @@
+<div class="cardControl height98">
+  <div class="main">
+    <div>
+      <div>
+        <ion-item class="searchBar width100" lines="none">
+          <ion-label><ion-icon name="search-outline"></ion-icon></ion-label>
+          <ion-input placeholder="Search" [(ngModel)]="filterTerm" animated="true"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+    <div class="table">
+      <ion-content>
+        <ion-list *ngFor="let listProductsScanned of listProductsScanneds | filter: filterTerm">
+          <ion-item>
+            <ion-label>
+              <h2><b>Nombre:</b> {{listProductsScanned.fileProduct.productName}}</h2>
+              <p><b>Marca:</b> {{listProductsScanned.fileProduct.mark}}</p>
+              <p><b>Cantidad escaneada:</b> {{listProductsScanned.amount}}</p>
+            </ion-label>
+            <ion-button shape="round" title="Borrar cliente" color="danger"
+              (click)="deleteProduct(listProductsScanned.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+            <ion-button shape="round" title="Editar cliente" color="warning" (click)="productUpdate(listProductsScanned)">
+              <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </div>
+  </div>
+</div>

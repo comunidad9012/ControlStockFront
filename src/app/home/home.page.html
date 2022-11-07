@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="navBar" color="main-color">
+    <ion-buttons slot="secondary">
+      <ion-button (click)="chekingBy()">
+        <ion-icon slot="icon-only" name="repeat"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Checking {{cheking}} COD
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="main">
+    <div>
+      <app-sccaner></app-sccaner>
+    </div>
+    <div>
+      <app-scanned-product-list></app-scanned-product-list>
+    </div>
+  </div>
+</ion-content>

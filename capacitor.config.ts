@@ -5,9 +5,9 @@ const config: CapacitorConfig = {
   appName: 'ControlStock',
   webDir: 'www',
   bundledWebRuntime: false,
-  /*server: {
-    url: 'http://localhost:8888'
-  }*/
+  server: {
+    url: 'http://34.95.208.112:8080/ControlStockBackendDeploy-0.0.1-SNAPSHOT/'
+  }
 };
 
 export default config;

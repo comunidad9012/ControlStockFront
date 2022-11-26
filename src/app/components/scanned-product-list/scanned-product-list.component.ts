@@ -11,78 +11,7 @@ import { AlertsService } from '../alerts/alerts.service';
 })
 export class ScannedProductListComponent implements OnInit {
 
-  listProductsScanneds: ScannerProduct[] = [
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Shampoo',
-        mark: 'Nivea',
-        amount:200,
-      }
-    },
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Shampoo',
-        mark: 'Nivea',
-        amount:200,
-      }
-    },
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Shampoo',
-        mark: 'Nivea',
-        amount:200,
-      }
-    },
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Javon',
-        mark: 'Nivea',
-        amount:200,
-      }
-    },
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Acondicionador',
-        mark: 'Nivea',
-        amount:200,
-      }
-    },
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Shampoo',
-        mark: 'Nivea',
-        amount:200,
-      }
-    },
-    {
-      id: 1,
-      amount: 200,
-      fileProduct: {
-        id:1,
-        productName: 'Shampoo',
-        mark: 'Nivea',
-        amount:200,
-      }
-    }
-  ];
+  listProductsScanneds: ScannerProduct[];
   filterTerm!: string;
 
   constructor(private scannerService: ScannerService,

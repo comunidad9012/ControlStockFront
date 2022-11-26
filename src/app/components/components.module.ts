@@ -8,6 +8,9 @@ import { ScannedProductListComponent } from './scanned-product-list/scanned-prod
 import { FileProductConfirmListComponent } from './file-product-confirm-list/file-product-confirm-list.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NewFileProductComponent } from './new-file-product/new-file-product.component';
+import { ActuallyArchingComponent } from './actually-arching/actually-arching.component';
+import { HistoryArchingComponent } from './history-arching/history-arching.component';
+import { DetailArchingComponent } from './detail-arching/detail-arching.component';
 
 
 @NgModule({
@@ -15,7 +18,10 @@ import { NewFileProductComponent } from './new-file-product/new-file-product.com
     SccanerComponent,
     ScannedProductListComponent,
     FileProductConfirmListComponent,
-    NewFileProductComponent
+    NewFileProductComponent,
+    ActuallyArchingComponent,
+    HistoryArchingComponent,
+    DetailArchingComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +36,10 @@ import { NewFileProductComponent } from './new-file-product/new-file-product.com
     SccanerComponent,
     ScannedProductListComponent,
     FileProductConfirmListComponent,
-    NewFileProductComponent
+    NewFileProductComponent,
+    ActuallyArchingComponent,
+    HistoryArchingComponent,
+    DetailArchingComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -116,9 +116,18 @@
 .heightauto{
   height: auto;
 }
+
+.height20px{
+  height: 20px;
+}
+
 /*width*/
 .width100{
   width: 100%;
+}
+
+.maxWidth100{
+  max-width: 100%;
 }
 
 
@@ -161,6 +170,32 @@
 .table{
   position: relative;
   top: 5px;
+}
+
+/**Flex**/
+.displayFlex{
+  display: flex;
+}
+
+.displayFlexRow{
+  flex-direction: row;
+}
+
+.displayFlexColum{
+  flex-direction: column;
+}
+
+.align-items-center{
+  align-items: center;
+}
+
+.textAlingCenter{
+  text-align: center;
+}
+
+/**padding**/
+.pading10{
+  padding: 0px 10px;
 }
 
 /**Importaciones*/

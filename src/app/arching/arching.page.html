@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="main-color">
+    <ion-title>Arqueo</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="main">
+    <div>
+      <app-actually-arching></app-actually-arching>
+    </div>
+    <div>
+      <app-detail-arching></app-detail-arching>
+    </div>
+  </div>
+  <app-history-arching *ngIf="false"></app-history-arching>
+</ion-content>

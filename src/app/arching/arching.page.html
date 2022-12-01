@@ -1,16 +1,17 @@
 <ion-header>
   <ion-toolbar color="main-color">
-    <ion-title>Arqueo</ion-title>
+    <ion-title *ngIf="page">Arqueo Actual</ion-title>
+    <ion-title *ngIf="!page">Historial de arqueos</ion-title>
     <ion-buttons slot="secondary">
-      <ion-button>
-        <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+      <ion-button (click)="changePage()">
+        <ion-icon *ngIf="page" slot="icon-only" name="time-outline"></ion-icon>
+        <ion-icon *ngIf="!page" slot="icon-only" name="play-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <div class="main">
+  <div class="main" *ngIf="page">
     <div>
       <app-actually-arching></app-actually-arching>
     </div>
@@ -18,5 +19,5 @@
       <app-detail-arching></app-detail-arching>
     </div>
   </div>
-  <app-history-arching *ngIf="false"></app-history-arching>
+  <app-history-arching *ngIf="!page"></app-history-arching>
 </ion-content>

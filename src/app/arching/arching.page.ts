@@ -7,12 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArchingPage implements OnInit {
 
+  page = true;
+
   constructor() {
 
   }
 
   ngOnInit() {
 
+  }
+
+  changePage(){
+    if (this.page) {
+      this.page = false;
+    } else {
+      this.page = true;
+    }
   }
 
 }

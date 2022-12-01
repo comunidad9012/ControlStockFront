@@ -11,6 +11,7 @@ import { NewFileProductComponent } from './new-file-product/new-file-product.com
 import { ActuallyArchingComponent } from './actually-arching/actually-arching.component';
 import { HistoryArchingComponent } from './history-arching/history-arching.component';
 import { DetailArchingComponent } from './detail-arching/detail-arching.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { DetailArchingComponent } from './detail-arching/detail-arching.componen
     NewFileProductComponent,
     ActuallyArchingComponent,
     HistoryArchingComponent,
-    DetailArchingComponent
+    DetailArchingComponent,
+    CalendarComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { DetailArchingComponent } from './detail-arching/detail-arching.componen
     NewFileProductComponent,
     ActuallyArchingComponent,
     HistoryArchingComponent,
-    DetailArchingComponent
+    DetailArchingComponent,
+    CalendarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

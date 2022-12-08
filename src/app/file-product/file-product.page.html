@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="main-color">
+    <ion-buttons slot="secondary">
+
+      <ion-button (click)="openFileProductList()">
+        <ion-icon name="list-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+
+        <ion-button (click)="openAsignation(true)">
+          <ion-icon name="arrow-down-circle" slot="icon-only"></ion-icon>
+        </ion-button>
+
+        <ion-button (click)="openNewFrom(true)">
+          <ion-icon name="add-circle" slot="icon-only"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <app-file-product-update></app-file-product-update> <!--Modal-->
+    <ion-title>Productos por archivo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-file-product-list *ngIf="isOpenList"></app-file-product-list>
+  <app-new-file-product-with-code *ngIf="isOpenForm"></app-new-file-product-with-code>
+  <ion-card *ngIf="isOpenAsignation">
+    <ion-card-header>
+      <ion-card-title>Asignacion de valores</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="newValueAsignation">
+          <ion-item>
+            <ion-label>Codigo de barra</ion-label>
+            <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Seleccione uno" formControlName="barcode">
+              <ion-select-option *ngFor="let fileProductNameKey of fileProductNameKeys">{{fileProductNameKey}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Nombre</ion-label>
+            <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Seleccione uno" formControlName="productName">
+              <ion-select-option *ngFor="let fileProductNameKey of fileProductNameKeys">{{fileProductNameKey}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Marca</ion-label>
+            <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Seleccione uno" formControlName="mark">
+              <ion-select-option *ngFor="let fileProductNameKey of fileProductNameKeys">{{fileProductNameKey}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Cantidad</ion-label>
+            <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Seleccione uno" formControlName="amount">
+              <ion-select-option *ngFor="let fileProductNameKey of fileProductNameKeys">{{fileProductNameKey}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        <ion-button color="main-color" expand="block" (click)="addNewValueAsignation()">Aceptar</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

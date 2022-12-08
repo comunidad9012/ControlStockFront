@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
 import { ScannerRequestService } from 'src/app/controller/scanner/scanner-request.service';
 import { ScannerProduct } from 'src/app/entities/scanner-product/scanner-product';
+import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
 import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
 
 @Injectable({
@@ -11,7 +13,8 @@ export class AlertsService {
 
   constructor(private alertController: AlertController,
     private scannerRequestService: ScannerRequestService,
-    private scannerService: ScannerService) { }
+    private scannerService: ScannerService, private fileProductRequestService: FileProductRequestService,
+    private fileProductService: FileProductService) { }
 
   async enterBack(){
     const alert = await this.alertController.create({
@@ -53,6 +56,33 @@ export class AlertsService {
               this.scannerRequestService.getAllScannedProduct().subscribe(requestData => {
                 console.log('Toda la lista es: ', requestData);
                 this.scannerService.triggerUpdatedListScanned.emit(requestData);
+              });
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async deleteFileProduct(id: number){
+    const alert = await this.alertController.create({
+      header: '¿Eliminar producto? ',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Cancelar');
+          },
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.fileProductRequestService.deletelFileProduct(id).subscribe(data => {
+              console.log('Eliminado', data);
+              this.scannerRequestService.getAllScannedProduct().subscribe(() => {
+                this.fileProductService.triggerUpdatedFileList.emit();
               });
             });
           },

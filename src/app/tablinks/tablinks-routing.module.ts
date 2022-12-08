@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('../arching/arching.module').then( m => m.ArchingPageModule)
       },
       {
+        path: 'file-product',
+        loadChildren: () => import('../file-product/file-product.module').then( m => m.FileProductPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tablinks/home',
         pathMatch: 'full'

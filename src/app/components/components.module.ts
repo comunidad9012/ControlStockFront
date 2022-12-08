@@ -12,6 +12,9 @@ import { ActuallyArchingComponent } from './actually-arching/actually-arching.co
 import { HistoryArchingComponent } from './history-arching/history-arching.component';
 import { DetailArchingComponent } from './detail-arching/detail-arching.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { FileProductUpdateComponent } from './file-product-update/file-product-update.component';
+import { FileProductListComponent } from './file-product-list/file-product-list.component';
+import { NewFileProductWithCodeComponent } from './new-file-product-with-code/new-file-product-with-code.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { CalendarComponent } from './calendar/calendar.component';
     ActuallyArchingComponent,
     HistoryArchingComponent,
     DetailArchingComponent,
-    CalendarComponent
+    CalendarComponent,
+    FileProductUpdateComponent,
+    FileProductListComponent,
+    NewFileProductWithCodeComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +48,10 @@ import { CalendarComponent } from './calendar/calendar.component';
     ActuallyArchingComponent,
     HistoryArchingComponent,
     DetailArchingComponent,
-    CalendarComponent
+    CalendarComponent,
+    FileProductUpdateComponent,
+    FileProductListComponent,
+    NewFileProductWithCodeComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

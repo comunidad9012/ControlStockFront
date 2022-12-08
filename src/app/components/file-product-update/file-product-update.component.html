@@ -1,0 +1,27 @@
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="main-color">
+        <ion-title>Cargar producto por archivo</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form id="file-upload-form" class="uploader">
+        <input id="file-upload" type="file"
+        (change)="fileUpload($event)"
+        name="fileUpload" accept=".xls,.xlsx" />
+
+        <label for="file-upload" id="file-drag">
+          <div id="start">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            <div>Seleccione un archivo</div>
+            <span id="file-upload-btn" class="btn btn-primary">Archivo .xls o .xlsx</span>
+          </div>
+        </label>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>

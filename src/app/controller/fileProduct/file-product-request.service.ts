@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FileProduct } from 'src/app/entities/file-product/file-product';
@@ -8,13 +8,22 @@ import { FileProduct } from 'src/app/entities/file-product/file-product';
 })
 export class FileProductRequestService {
 
-  baseURL = 'http://34.95.208.112:8080/ControlStockBackendDeploy-0.0.1-SNAPSHOT/api';
+  //baseURL = 'http://34.95.208.112:8080/ControlStockBackendDeploy-0.0.1-SNAPSHOT/api';
+  baseURL = 'http://localhost:8080/api';
 
   constructor(private httpClient: HttpClient) { }
 
   //Post File Product
   public newFileProduct(fileProduct: FileProduct): Observable<FileProduct> {
     return this.httpClient.post<FileProduct>(this.baseURL + '/file-products/new', fileProduct);
+  }
+
+  public getAllFileProducts(): Observable<FileProduct[]> {
+    return this.httpClient.get<FileProduct[]>(this.baseURL + '/file-products');
+  }
+
+  public deletelFileProduct(id: number): Observable<HttpStatusCode> {
+    return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/file-products/' + id);
   }
 
 }

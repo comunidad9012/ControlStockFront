@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/ban-types */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FileProductService } from '../services/file-product-service/file-product.service';
 import { FileProductBarcode } from '../entities/file-product/file-product-barcode';
-import { FileProductServiceService } from '../logic/services-logic/file-product-service.service';
+import { FileProduct } from '../entities/file-product/file-product';
+import { Codes } from '../entities/codes/codes';
+import { FileProductRequestService } from '../controller/fileProduct/file-product-request.service';
+import { CodesRequestService } from '../controller/codes/codes-request.service';
 
 @Component({
   selector: 'app-file-product',
@@ -29,8 +34,13 @@ export class FileProductPage implements OnInit {
 
   newValueAsignation!: FormGroup;
 
+  codeList: Array<{}> = [];
+  fileProduct: FileProduct;
+  code: Codes;
 
-  constructor(private fileProductService: FileProductService) {
+
+  constructor(private fileProductService: FileProductService, private fileProductRequestService: FileProductRequestService,
+    private codesRequestService: CodesRequestService) {
     this.formul();
    }
 
@@ -55,6 +65,7 @@ export class FileProductPage implements OnInit {
     });
   }
 
+
   addNewValueAsignation() {
     const form = this.newValueAsignation.value;
     const fileProduct: FileProductBarcode = {
@@ -73,11 +84,33 @@ export class FileProductPage implements OnInit {
           amount: i[fileProduct.amount]
         });
       });
-      console.log(this.formatedFileProductList);
-      this.fileProductService.triggerFormatedList.emit(this.formatedFileProductList);
+      this.addFileProductWithCode();
+      this.fileProductList = null;
     } catch (error) {
       console.log(error);
     }
+  }
+
+  addFileProductWithCode(){
+    console.log('La lista es: ', this.formatedFileProductList);
+    const listFileProdutList: Array<{}> = [];
+    this.formatedFileProductList.forEach(async i => {
+      this.fileProduct = {
+        productName: i.productName,
+        mark: i.mark,
+        amount: i.amount,
+      };
+      this.code = {
+        id: i.barcode
+      };
+      listFileProdutList.push({
+        fileProduct: this.fileProduct,
+        code: this.code
+      });
+    });
+    this.fileProductRequestService.newFileProductsWithCode(listFileProdutList).subscribe(() => {
+      this.openFileProductList();
+    });
   }
 
   openNewFrom(value: boolean) {
@@ -100,7 +133,9 @@ export class FileProductPage implements OnInit {
     }
   }
 
-  openFileProductList(){
+  async openFileProductList(){
+    this.fileProductService.triggerUpdatedFileList.emit();
+    console.log('Despues');
     this.isOpenAsignation = false;
     this.isOpenForm = false;
     this.isOpenList = true;

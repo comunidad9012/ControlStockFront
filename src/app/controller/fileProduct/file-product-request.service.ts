@@ -18,6 +18,10 @@ export class FileProductRequestService {
     return this.httpClient.post<FileProduct>(this.baseURL + '/file-products/new', fileProduct);
   }
 
+  public newFileProductsWithCode(data: any): Observable<any> {
+    return this.httpClient.post<any>(this.baseURL + '/file-products/code/new', data);
+  }
+
   public getAllFileProducts(): Observable<FileProduct[]> {
     return this.httpClient.get<FileProduct[]>(this.baseURL + '/file-products');
   }

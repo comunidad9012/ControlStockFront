@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnInit } from '@angular/core';
 import { format, parseISO } from 'date-fns';
+import { ArchingRequestService } from 'src/app/controller/arching/arching-request.service';
 import { ArchingService } from 'src/app/services/arching-service/arching.service';
+import { Arching } from '../../entities/arching/arching';
+import { DateRange } from '../../entities/arching/date-range';
 
 @Component({
   selector: 'app-history-arching',
@@ -14,40 +17,86 @@ export class HistoryArchingComponent implements OnInit {
   dateTo: Date = new Date();
   formattedStringFrom = '';
   formattedStringTo = '';
+  desde = '';
+  hasta = '';
+  archingList: Array<Arching> = [];
+  page = false;
 
-  constructor(private archingService: ArchingService) {
-    this.setToday();
+  constructor(private archingService: ArchingService, private archingRequestService: ArchingRequestService) {
+
+
   }
 
   ngOnInit() {
+    this.archingService.triggerChangePage.subscribe((data) => {
+      console.log(data);
+      if (this.page) {
+        this.page = false;
+      } else {
+        this.page = true;
+      }
+    });
+
+    this.setToday();
+    this.getArchingByDate();
     this.archingService.triggerChangeData.subscribe((data) => {
       if (data.fromOrTo === 1) {
         this.dateFrom = data.date;
-        this.formattedStringFrom = format(parseISO(data.date), 'dd-MM-yyyy');
+        this.formattedStringFrom = format(parseISO(data.date), 'yyyy-MM-dd');
+        this.desde = format(parseISO(data.date), 'yyyy-MM-dd hh:mm:ss');
       } else if (data.fromOrTo === 2){
         this.dateTo = data.date;
-        this.formattedStringTo = format(parseISO(data.date), 'dd-MM-yyyy');
+        this.formattedStringTo = format(parseISO(data.date), 'yyyy-MM-dd');
+        this.hasta = format(parseISO(data.date), 'yyyy-MM-dd hh:mm:ss');
       }
+      this.getArchingByDate();
     });
   }
 
   setToday() {
-    this.dateFrom.setDate(this.dateFrom.getDate() - 5);
-    this.formattedStringFrom = format(parseISO(format(this.dateFrom, 'yyyy-MM-dd') + 'T09:00:00.000Z'), 'dd-MM-yyyy');
-    this.formattedStringTo = format(parseISO(format(this.dateTo, 'yyyy-MM-dd')+ 'T09:00:00.000Z'), 'dd-MM-yyyy');
+    this.dateFrom.setDate(this.dateFrom.getDate() - 60);
+    this.formattedStringFrom = format(parseISO(format(this.dateFrom, 'yyyy-MM-dd')), 'yyyy-MM-dd');
+    this.formattedStringTo = format(parseISO(format(this.dateTo, 'yyyy-MM-dd')), 'yyyy-MM-dd');
+    this.desde = format(parseISO(format(this.dateFrom, 'yyyy-MM-dd')), 'yyyy-MM-dd hh:ss:mm');
+    this.hasta = format(parseISO(format(this.dateTo, 'yyyy-MM-dd')), 'yyyy-MM-dd hh:ss:mm');
   }
 
   openCalendar(type: number) {
-    let date: Date;
+    let date: string;
     if (type === 1) {
-        date = this.dateFrom;
+        date = this.formattedStringFrom;
     } else if (type === 2) {
-        date = this.dateTo;
+        date = this.formattedStringTo;
     }
     this.archingService.triggerOpenCalendarModal.emit({
       typ: type,
       setDate: date
     });
+  }
+
+  getAllArching() {
+    this.archingRequestService.getAllArching().subscribe(data => {
+      this.archingList = data;
+    });
+  }
+
+  getArchingByDate(){
+    const dateRange: DateRange = {
+      from: this.desde,
+      to: this.hasta
+    };
+    console.log(dateRange);
+    this.archingRequestService.getArchingByDate(dateRange).subscribe(data => {
+      this.archingList = data;
+      console.log(data);
+    });
+  }
+
+  openArchingDetail(id: number){
+    this.archingRequestService.getArchingById(id).subscribe(dat => {
+      this.archingService.triggerOpenArchingDetail.emit(dat);
+    });
+    this.archingService.triggerSendArchingId.emit(id);
   }
 
 }

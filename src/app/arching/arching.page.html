@@ -1,23 +1,20 @@
 <ion-header>
   <ion-toolbar color="main-color">
-    <ion-title *ngIf="page">Arqueo Actual</ion-title>
+    <ion-title *ngIf="page">Arqueo</ion-title>
     <ion-title *ngIf="!page">Historial de arqueos</ion-title>
     <ion-buttons slot="secondary">
       <ion-button (click)="changePage()">
         <ion-icon *ngIf="page" slot="icon-only" name="time-outline"></ion-icon>
         <ion-icon *ngIf="!page" slot="icon-only" name="play-circle-outline"></ion-icon>
       </ion-button>
+      <ion-button (click)="openModal()">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="main" *ngIf="page">
-    <div>
-      <app-actually-arching></app-actually-arching>
-    </div>
-    <div>
-      <app-detail-arching></app-detail-arching>
-    </div>
-  </div>
-  <app-history-arching *ngIf="!page"></app-history-arching>
+  <app-new-arching></app-new-arching>
+  <app-history-arching></app-history-arching>
+  <app-actually-arching></app-actually-arching>
 </ion-content>

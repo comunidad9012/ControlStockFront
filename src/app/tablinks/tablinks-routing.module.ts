@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TablinksPage } from './tablinks.page';
+import { ArchingOpenGuard } from '../arching-open.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
+        loadChildren: () => import('../home/home.module').then( m => m.HomePageModule),
+        canActivate: [ArchingOpenGuard]
       },
       {
         path: 'arching',
@@ -18,7 +20,8 @@ const routes: Routes = [
       },
       {
         path: 'file-product',
-        loadChildren: () => import('../file-product/file-product.module').then( m => m.FileProductPageModule)
+        loadChildren: () => import('../file-product/file-product.module').then( m => m.FileProductPageModule),
+        canActivate: [ArchingOpenGuard]
       },
       {
         path: '',

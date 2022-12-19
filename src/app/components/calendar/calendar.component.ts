@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonDatetime } from '@ionic/angular';
-import { format, parseISO } from 'date-fns';
 import { ArchingService } from 'src/app/services/arching-service/arching.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class CalendarComponent implements OnInit {
   isModalOpen = false;
   selectedMode = 'date';
   showPicker = false;
-  dateValue: any;
+  dateValue: string;
   fromOrTo = 0;
 
   @ViewChild(IonDatetime) datetime: IonDatetime;
@@ -23,8 +22,10 @@ export class CalendarComponent implements OnInit {
   }
   ngOnInit() {
     this.archingService.triggerOpenCalendarModal.subscribe((data) => {
+      console.log('Abriendo');
       this.fromOrTo = data.typ;
-      this.dateValue = format(data.setDate, 'yyyy-MM-dd') + 'T09:00:00.000Z';
+      this.dateValue = data.setDate;
+      console.log(typeof this.dateValue);
       this.setOpen();
     });
   }

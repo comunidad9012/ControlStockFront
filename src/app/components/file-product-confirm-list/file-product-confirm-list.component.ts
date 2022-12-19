@@ -5,6 +5,9 @@ import { Codes } from 'src/app/entities/codes/codes';
 import { ScannerProduct } from 'src/app/entities/scanner-product/scanner-product';
 import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
 import { FileProduct } from '../../entities/file-product/file-product';
+import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
+import { ArchingRequestService } from 'src/app/controller/arching/arching-request.service';
+import { DetailArching } from '../../entities/detail-arching/detail-arching';
 
 @Component({
   selector: 'app-file-product-confirm-list',
@@ -25,7 +28,9 @@ export class FileProductConfirmListComponent implements OnInit {
   constructor(
     private scannerService: ScannerService,
     private codesRequestService: CodesRequestService,
-    private scannerRequestService: ScannerRequestService
+    private scannerRequestService: ScannerRequestService,
+    private detailArchingRequestService: DetailArchingRequestService,
+    private archingRequestService: ArchingRequestService
   ) {}
 
   ngOnInit(): void {
@@ -92,12 +97,23 @@ export class FileProductConfirmListComponent implements OnInit {
           if (this.cod.id !== '') {
             this.codesRequestService.addCode(fileProductId, this.cod).subscribe(()=>{});
           }
-          this.scannerRequestService
-            .getAllScannedProduct()
-            .subscribe((data) => {
-              this.scannerService.triggerUpdatedListScanned.emit(data);
+          // Alta de detailProduct
+          const detailArching: DetailArching = {
+            productName: d.fileProduct.productName,
+            mark: d.fileProduct.mark,
+            scannedProductAmount: d.amount,
+            fileProductAmount: d.fileProduct.amount
+          };
+          this.archingRequestService.getLastOneArching().subscribe((data) => {
+            this.detailArchingRequestService.newDetailArching(data.id, detailArching).subscribe((dat)=>{
+              console.log(dat);
             });
-            this.setOpen();
+          });
+
+          this.scannerRequestService.getAllScannedProduct().subscribe((data) => {
+              this.scannerService.triggerUpdatedListScanned.emit(data);
+          });
+          this.setOpen();
         },
         (err) => {
           console.error('Error', err);

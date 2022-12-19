@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Codes } from 'src/app/entities/codes/codes';
@@ -24,6 +24,10 @@ export class CodesRequestService {
 
   public addCode(fileProductId: number, codesRequest: Codes) {
     return this.httpClient.post<Codes>(this.baseURL + '/file-products/' + fileProductId + '/codes', codesRequest);
+  }
+
+  public deleteAllCodes(): Observable<HttpStatusCode> {
+    return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/codes');
   }
 
 

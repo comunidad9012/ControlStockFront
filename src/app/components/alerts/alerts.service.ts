@@ -179,4 +179,21 @@ export class AlertsService {
     await alert.present();
   }
 
+  async endLasOneArching(){
+    const alert = await this.alertController.create({
+      header: 'Arqueo no terminado',
+      subHeader: 'Debe terminar el arqueo actual antes de comenzar otro',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Aceptar');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
 }

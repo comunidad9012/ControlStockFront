@@ -15,6 +15,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { FileProductUpdateComponent } from './file-product-update/file-product-update.component';
 import { FileProductListComponent } from './file-product-list/file-product-list.component';
 import { NewFileProductWithCodeComponent } from './new-file-product-with-code/new-file-product-with-code.component';
+import { NewArchingComponent } from './new-arching/new-arching.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { NewFileProductWithCodeComponent } from './new-file-product-with-code/ne
     CalendarComponent,
     FileProductUpdateComponent,
     FileProductListComponent,
-    NewFileProductWithCodeComponent
+    NewFileProductWithCodeComponent,
+    NewArchingComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { NewFileProductWithCodeComponent } from './new-file-product-with-code/ne
     CalendarComponent,
     FileProductUpdateComponent,
     FileProductListComponent,
-    NewFileProductWithCodeComponent
+    NewFileProductWithCodeComponent,
+    NewArchingComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

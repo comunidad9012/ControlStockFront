@@ -5,6 +5,8 @@ import { ArchingRequestService } from 'src/app/controller/arching/arching-reques
 import { format, parseISO } from 'date-fns';
 import { CodesRequestService } from 'src/app/controller/codes/codes-request.service';
 import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
+import { DetailArching } from 'src/app/entities/detail-arching/detail-arching';
+import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
 
 @Component({
   selector: 'app-actually-arching',
@@ -17,13 +19,18 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
     id: 0,
     referrer: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    fileProductAmount: 0,
+    scannedProductAmount: 0,
+    valence: 0
   };
   page = true;
   end = '';
+  detailArchingList: DetailArching[] = [];
 
   constructor(private archingService: ArchingService, private archingRequestService: ArchingRequestService,
-    private codesRequestService: CodesRequestService, private fileProductRequestService: FileProductRequestService) {
+    private codesRequestService: CodesRequestService, private fileProductRequestService: FileProductRequestService,
+    private detailArchingRequestService: DetailArchingRequestService) {
 
   }
 
@@ -42,7 +49,7 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.archingService.triggerOpenArchingDetail.subscribe(dat => {
+    this.archingService.triggerOpenArchingDetail.subscribe(async dat => {
       if (dat.endDate === null) {
         this.end = 'Sin finalizar';
       } else {
@@ -54,14 +61,17 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
         startDate: dat.startDate.substr(0, 10),
         endDate: this.end
       };
+      await this.getTotalScannedProductAmount(this.arching.id);
+      await this.getTotalFileProductAmount(this.arching.id);
+      await this.getTotalValence(this.arching.id);
       console.log('El arching de id es::', this.arching);
+      await this.getAllDetailArching(dat.id);
     });
   }
 
-
   async getLastOneArching(): Promise<void>{
     return await new Promise<void>((resolve, reject) => {
-      this.archingRequestService.getLastOneArching().subscribe(data => {
+      this.archingRequestService.getLastOneArching().subscribe(async data => {
         if (data.endDate === null) {
           this.end = 'Sin finalizar';
         } else {
@@ -73,6 +83,11 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
           startDate: data.startDate.substr(0, 10),
           endDate: this.end
         };
+        await this.getTotalScannedProductAmount(this.arching.id);
+        await this.getTotalFileProductAmount(this.arching.id);
+        await this.getTotalValence(this.arching.id);
+        await this.getAllDetailArching(data.id);
+        console.log(this.arching);
         resolve();
       });
     });
@@ -88,13 +103,51 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
         localStorage.setItem('arching-open', 'false');
     });
     //delete all scanned, file products and codes
-    this.fileProductRequestService.deleteAllFileProducts().subscribe((data) => {
+    this.codesRequestService.deleteAllFileCodes().subscribe((data) => {
       console.log(data);
-    });
-    this.codesRequestService.deleteAllCodes().subscribe((data) => {
-      console.log(data);
+      this.fileProductRequestService.deleteAllFileProducts().subscribe((dat) => {
+        console.log(dat);
+        this.codesRequestService.deleteAllCodes().subscribe((da) => {
+          console.log(da);
+        });
+      });
     });
   }
 
+  async getAllDetailArching(id: number) {
+    return await new Promise<void>((resolve, reject) => {
+      this.detailArchingRequestService.getAllDetailArching(id).subscribe((data) => {
+        this.detailArchingList = data;
+        resolve();
+      });
+    });
+  }
 
+  async getTotalScannedProductAmount(id: number) {
+    return await new Promise<void>((resolve, reject) => {
+      this.archingRequestService.getTotalScannedProductAmount(id).subscribe((data) => {
+        console.log(data);
+        this.arching.scannedProductAmount = data;
+        resolve();
+      });
+    });
+  }
+
+  async getTotalFileProductAmount(id: number) {
+    return await new Promise<void>((resolve, reject) => {
+      this.archingRequestService.getTotalFileProductAmount(id).subscribe((data) => {
+        this.arching.fileProductAmount = data;
+        resolve();
+      });
+    });
+  }
+
+  async getTotalValence(id: number) {
+    return await new Promise<void>((resolve, reject) => {
+      this.archingRequestService.getTotalValence(id).subscribe((data) => {
+        this.arching.valence = data;
+        resolve();
+      });
+    });
+  }
 }

@@ -96,7 +96,6 @@ export class HistoryArchingComponent implements OnInit {
     this.archingRequestService.getArchingById(id).subscribe(dat => {
       this.archingService.triggerOpenArchingDetail.emit(dat);
     });
-    this.archingService.triggerSendArchingId.emit(id);
   }
 
 }

@@ -12,9 +12,9 @@
               <p><b>Responsable:</b> {{arching.referrer}}</p>
               <p><b>Fecha de inicio:</b> {{arching.startDate}}</p>
               <p><b>Fecha de finalizacion:</b> {{arching.endDate}}</p>
-              <p><b>Catidad de FileProduct:</b> 200</p>
-              <p><b>Cantidad de ScannedProduct:</b> 195</p>
-              <p><b>Valace:</b> Faltan 5</p>
+              <p><b>Catidad de FileProduct:</b> {{arching.fileProductAmount}}</p>
+              <p><b>Cantidad de ScannedProduct:</b> {{arching.scannedProductAmount}}</p>
+              <p><b>Valace:</b> {{arching.valence}}</p>
             </ion-label>
           </ion-item>
           <div class="pading10" *ngIf="end === 'Sin finalizar'">
@@ -27,6 +27,30 @@
     </ion-card>
   </div>
   <div>
-    <app-detail-arching></app-detail-arching>
+    <div class="cardControl height98">
+      <div class="main">
+        <div>
+          <ion-item class="searchBar width100" lines="none">
+            <ion-label><ion-icon name="search-outline"></ion-icon></ion-label>
+            <ion-input placeholder="Search" animated="true"></ion-input>
+          </ion-item>
+        </div>
+        <div class="table">
+          <ion-content>
+            <ion-list *ngFor="let detailArching of detailArchingList">
+              <ion-item>
+                <ion-label>
+                  <h2><b>Nombre del producto</b> {{detailArching.productName}}</h2>
+                  <p><b>Marca:</b> {{detailArching.mark}}</p>
+                  <p><b>Cantidad escaneada:</b> {{detailArching.scannedProductAmount}}</p>
+                  <p><b>Cantidad de archivo:</b> {{detailArching.fileProductAmount}}</p>
+                  <p><b>Valance:</b> {{detailArching.scannedProductAmount - detailArching.fileProductAmount}}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

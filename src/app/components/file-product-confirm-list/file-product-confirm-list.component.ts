@@ -99,9 +99,10 @@ export class FileProductConfirmListComponent implements OnInit {
           }
           // Alta de detailProduct
           const detailArching: DetailArching = {
+            id: d.id,
             productName: d.fileProduct.productName,
             mark: d.fileProduct.mark,
-            scannedProductAmount: d.amount,
+            scannedProductAmount: this.scannerProductAmount.amount,
             fileProductAmount: d.fileProduct.amount
           };
           this.archingRequestService.getLastOneArching().subscribe((data) => {

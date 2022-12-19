@@ -3,4 +3,7 @@ export class Arching {
   referrer?: string;
   startDate?: string;
   endDate?: string;
+  fileProductAmount?: number;
+  scannedProductAmount?: number;
+  valence?: number;
 }

@@ -26,6 +26,10 @@ export class CodesRequestService {
     return this.httpClient.post<Codes>(this.baseURL + '/file-products/' + fileProductId + '/codes', codesRequest);
   }
 
+  public deleteAllFileCodes(): Observable<HttpStatusCode> {
+    return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/file-products/codes');
+  }
+
   public deleteAllCodes(): Observable<HttpStatusCode> {
     return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/codes');
   }

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
 import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
 import { ScannerRequestService } from 'src/app/controller/scanner/scanner-request.service';
+import { DetailArching } from 'src/app/entities/detail-arching/detail-arching';
 import { ScannerProduct } from 'src/app/entities/scanner-product/scanner-product';
 import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
 import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
@@ -14,7 +16,8 @@ export class AlertsService {
   constructor(private alertController: AlertController,
     private scannerRequestService: ScannerRequestService,
     private scannerService: ScannerService, private fileProductRequestService: FileProductRequestService,
-    private fileProductService: FileProductService) { }
+    private fileProductService: FileProductService,
+    private detailArchingRequestService: DetailArchingRequestService) { }
 
   async enterBack(){
     const alert = await this.alertController.create({
@@ -53,9 +56,11 @@ export class AlertsService {
           handler: () => {
             this.scannerRequestService.deleteScannedProduct(id).subscribe(data => {
               console.log('Eliminado', data);
-              this.scannerRequestService.getAllScannedProduct().subscribe(requestData => {
-                console.log('Toda la lista es: ', requestData);
-                this.scannerService.triggerUpdatedListScanned.emit(requestData);
+              this.detailArchingRequestService.deleteDetailArching(id).subscribe(() => {
+                this.scannerRequestService.getAllScannedProduct().subscribe(requestData => {
+                  console.log('Toda la lista es: ', requestData);
+                  this.scannerService.triggerUpdatedListScanned.emit(requestData);
+                });
               });
             });
           },
@@ -117,10 +122,15 @@ export class AlertsService {
               fileProduct: scannedProduct.fileProduct
             };
             this.scannerRequestService.updateScannedProduct(scannedProduct.id, productUpdated).subscribe(data => {
-              this.scannerRequestService.getAllScannedProduct().subscribe(returnData => {
+              const detailArching: DetailArching = {
+                id: data.id,
+                scannedProductAmount: data.amount,
+              };
+              this.detailArchingRequestService.updateDetailArching(detailArching).subscribe(() => {
+                this.scannerRequestService.getAllScannedProduct().subscribe(returnData => {
                   this.scannerService.triggerUpdatedListScanned.emit(returnData);
                 });
-              console.log('Producto actualizado', data);
+              });
             });
           },
         },

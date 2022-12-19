@@ -38,4 +38,16 @@ export class ArchingRequestService {
     return this.httpClient.put<Arching>(this.baseURL + '/arching/' + archingId, archingEndDate);
   }
 
+  getTotalScannedProductAmount(id: number): Observable<number> {
+    return this.httpClient.get<number>(this.baseURL + '/arching/scanned-product/amount/' + id);
+  }
+
+  getTotalFileProductAmount(id: number): Observable<number> {
+    return this.httpClient.get<number>(this.baseURL + '/arching/file-product/amount/' + id);
+  }
+
+  getTotalValence(id: number): Observable<number> {
+    return this.httpClient.get<number>(this.baseURL + '/arching/valence/' + id);
+  }
+
 }

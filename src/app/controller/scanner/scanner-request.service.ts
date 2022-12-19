@@ -19,7 +19,7 @@ export class ScannerRequestService {
   }
 
   //Put
-  public updateScannedProduct(scannedProductId: number, scannedProduct: ScannerProduct){
+  public updateScannedProduct(scannedProductId: number, scannedProduct: ScannerProduct): Observable<ScannerProduct>{
     return this.httpClient.put<ScannerProduct>(this.baseURL + '/scanned-product/' + scannedProductId, scannedProduct);
   }
 

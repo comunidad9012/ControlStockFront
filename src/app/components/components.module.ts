@@ -10,7 +10,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NewFileProductComponent } from './new-file-product/new-file-product.component';
 import { ActuallyArchingComponent } from './actually-arching/actually-arching.component';
 import { HistoryArchingComponent } from './history-arching/history-arching.component';
-import { DetailArchingComponent } from './detail-arching/detail-arching.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { FileProductUpdateComponent } from './file-product-update/file-product-update.component';
 import { FileProductListComponent } from './file-product-list/file-product-list.component';
@@ -26,7 +25,6 @@ import { NewArchingComponent } from './new-arching/new-arching.component';
     NewFileProductComponent,
     ActuallyArchingComponent,
     HistoryArchingComponent,
-    DetailArchingComponent,
     CalendarComponent,
     FileProductUpdateComponent,
     FileProductListComponent,
@@ -49,7 +47,6 @@ import { NewArchingComponent } from './new-arching/new-arching.component';
     NewFileProductComponent,
     ActuallyArchingComponent,
     HistoryArchingComponent,
-    DetailArchingComponent,
     CalendarComponent,
     FileProductUpdateComponent,
     FileProductListComponent,

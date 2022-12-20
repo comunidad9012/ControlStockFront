@@ -64,7 +64,7 @@ export class FileProductPage implements OnInit {
     this.newValueAsignation = new FormGroup({
       barcode: new FormControl('', Validators.required),
       productName: new FormControl('', Validators.required),
-      mark: new FormControl('', Validators.required),
+      mark: new FormControl(''),
       amount: new FormControl('', Validators.required)
     });
   }

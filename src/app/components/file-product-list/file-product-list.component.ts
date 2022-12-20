@@ -32,8 +32,8 @@ export class FileProductListComponent implements OnInit {
     });
   }
 
-  deleteProduct(id: number, scannedProductId: number){
-    this.alertsService.deleteFileProduct(id, scannedProductId);
+  deleteProduct(id: number, fileProduct: FileProduct) {
+    this.alertsService.deleteFileProduct(id, fileProduct);
     console.log('El id es: ', id);
   }
 

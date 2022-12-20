@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule  } from '@angular/forms';
 import { CodesRequestService } from 'src/app/controller/codes/codes-request.service';
 import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
 import { Codes } from 'src/app/entities/codes/codes';
@@ -21,7 +21,7 @@ export class NewFileProductWithCodeComponent implements OnInit {
       productName: new FormControl('', Validators.required),
       mark: new FormControl('', Validators.required),
       amount: new FormControl('', Validators.required),
-      barcode: new FormControl('', Validators.required)
+      barcode: new FormControl('')
     });
  }
 
@@ -44,7 +44,7 @@ export class NewFileProductWithCodeComponent implements OnInit {
           this.fileProductService.triggerOpenList.emit();
         });
       } else {
-        //change of page
+        this.fileProductService.triggerOpenList.emit();
       }
     });
   }

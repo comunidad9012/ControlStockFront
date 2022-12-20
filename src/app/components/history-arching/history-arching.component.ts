@@ -88,16 +88,15 @@ export class HistoryArchingComponent implements OnInit {
       from: this.desde,
       to: this.hasta
     };
-    console.log(dateRange);
     this.archingRequestService.getArchingByDate(dateRange).subscribe(async data => {
       this.archingList = data;
-      const lista: Arching[] = [];
+      console.log('Lista1', this.archingList);
+      const lista: Array<Arching> = [];
       await new Promise<void>((resolve, reject) => {
         this.archingList.forEach(async i => {
           const file = await this.getTotalFileProductAmount(i.id);
           const scann = await this.getTotalScannedProductAmount(i.id);
           const valence1 = await this.getTotalValence(i.id);
-          console.log('El file es: ', file);
           let end = '';
           if (i.endDate === null) {
             end = 'Sin finalizar';
@@ -115,9 +114,10 @@ export class HistoryArchingComponent implements OnInit {
           });
           resolve();
         });
+        console.log('La lista es: ', lista);
         this.archingList = lista;
+        console.log('Lista2', this.archingList);
       });
-      console.log(data);
     });
   }
 

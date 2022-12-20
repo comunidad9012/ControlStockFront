@@ -4,6 +4,7 @@ import { DetailArchingRequestService } from 'src/app/controller/detail-arching/d
 import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
 import { ScannerRequestService } from 'src/app/controller/scanner/scanner-request.service';
 import { DetailArching } from 'src/app/entities/detail-arching/detail-arching';
+import { FileProduct } from 'src/app/entities/file-product/file-product';
 import { ScannerProduct } from 'src/app/entities/scanner-product/scanner-product';
 import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
 import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
@@ -68,7 +69,7 @@ export class AlertsService {
     await alert.present();
   }
 
-  async deleteFileProduct(id: number, scannedProductId: number){
+  async deleteFileProduct(id: number, fileProduct: FileProduct){
     const alert = await this.alertController.create({
       header: '¿Eliminar producto? ',
       buttons: [
@@ -81,13 +82,23 @@ export class AlertsService {
         {
           text: 'Eliminar',
           handler: () => {
-            this.fileProductRequestService.deletelFileProduct(id).subscribe(data => {
-              console.log('Eliminado', data);
-              this.detailArchingRequestService.deleteDetailArching(scannedProductId).subscribe(() => {
+            if (!fileProduct.scannedProduct) {
+              console.log('Borrado sin scanned');
+              this.fileProductRequestService.deletelFileProduct(id).subscribe(data => {
+                console.log('Eliminado', data);
                 this.fileProductService.triggerUpdatedFileList.emit();
                 this.scannerService.triggerUpdatedListScanned.emit();
               });
-            });
+            } else {
+              console.log('Borrado con scanned');
+              this.fileProductRequestService.deletelFileAndScannedProduct(id).subscribe((date) => {
+                console.log(date);
+                this.detailArchingRequestService.deleteDetailArching(fileProduct.scannedProduct.id).subscribe(() => {
+                  this.fileProductService.triggerUpdatedFileList.emit();
+                  this.scannerService.triggerUpdatedListScanned.emit();
+                });
+              });
+            };
           },
         },
       ],

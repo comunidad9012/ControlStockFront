@@ -17,7 +17,7 @@
               <p><b>Cantidad:</b> {{fileProduct.amount}}</p>
             </ion-label>
             <ion-button shape="round" title="Borrar cliente" color="danger"
-              (click)="deleteProduct(fileProduct.id, fileProduct.scannedProduct.id)">
+              (click)="deleteProduct(fileProduct.id, fileProduct)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
             <ion-button shape="round" title="Editar cliente" color="warning" (click)="productUpdate(fileProduct)">

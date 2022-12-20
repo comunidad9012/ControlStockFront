@@ -21,7 +21,7 @@
           <ion-title>Buscar por NOMBRE</ion-title>
         </ng-template>
       </ion-toolbar>
-      <ion-toolbar *ngIf="!searchby" color="main-color">
+      <ion-toolbar *ngIf="!searchby && !varNewFileProduct" color="main-color">
         <ion-searchbar placeholder="Search" [(ngModel)]="filterTerm" animated="true"></ion-searchbar>
       </ion-toolbar>
     </ion-header>

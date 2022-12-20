@@ -56,7 +56,7 @@
             </ion-select>
           </ion-item>
 
-        <ion-button color="main-color" expand="block" (click)="addNewValueAsignation()">Aceptar</ion-button>
+        <ion-button color="main-color" expand="block" (click)="addNewValueAsignation()" [disabled]="newValueAsignation.invalid">Aceptar</ion-button>
       </form>
     </ion-card-content>
   </ion-card>

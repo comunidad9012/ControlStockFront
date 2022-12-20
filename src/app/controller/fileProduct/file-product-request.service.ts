@@ -30,6 +30,10 @@ export class FileProductRequestService {
     return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/file-products/' + id);
   }
 
+  public deletelFileAndScannedProduct(id: number): Observable<HttpStatusCode> {
+    return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/file-products/and-scanned/' + id);
+  }
+
   public deleteAllFileProducts(): Observable<HttpStatusCode> {
     return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/file-products');
   }

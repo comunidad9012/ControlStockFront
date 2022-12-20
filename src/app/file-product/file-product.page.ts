@@ -53,7 +53,11 @@ export class FileProductPage implements OnInit {
       this.fileProductList = data;
       this.fileProductNameKeys = Object.keys(this.fileProductList[0]);
     });
-
+    this.fileProductService.triggerOpenList.subscribe(() => {
+      this.isOpenForm = false;
+      this.isOpenAsignation = false;
+      this.isOpenList = true;
+    });
   }
 
   formul() {

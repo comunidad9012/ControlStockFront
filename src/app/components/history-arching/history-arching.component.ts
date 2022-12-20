@@ -19,7 +19,7 @@ export class HistoryArchingComponent implements OnInit {
   formattedStringTo = '';
   desde = '';
   hasta = '';
-  archingList: Array<Arching> = [];
+  archingList: Arching[] = [];
   page = false;
 
   constructor(private archingService: ArchingService, private archingRequestService: ArchingRequestService) {
@@ -49,6 +49,9 @@ export class HistoryArchingComponent implements OnInit {
         this.formattedStringTo = format(parseISO(data.date), 'yyyy-MM-dd');
         this.hasta = format(parseISO(data.date), 'yyyy-MM-dd hh:mm:ss');
       }
+      this.getArchingByDate();
+    });
+    this.archingService.triggerReloadActuallyArching.subscribe(()=> {
       this.getArchingByDate();
     });
   }
@@ -86,8 +89,34 @@ export class HistoryArchingComponent implements OnInit {
       to: this.hasta
     };
     console.log(dateRange);
-    this.archingRequestService.getArchingByDate(dateRange).subscribe(data => {
+    this.archingRequestService.getArchingByDate(dateRange).subscribe(async data => {
       this.archingList = data;
+      const lista: Arching[] = [];
+      await new Promise<void>((resolve, reject) => {
+        this.archingList.forEach(async i => {
+          const file = await this.getTotalFileProductAmount(i.id);
+          const scann = await this.getTotalScannedProductAmount(i.id);
+          const valence1 = await this.getTotalValence(i.id);
+          console.log('El file es: ', file);
+          let end = '';
+          if (i.endDate === null) {
+            end = 'Sin finalizar';
+          } else {
+            end = i.endDate.substr(0, 10);
+          }
+          lista.push({
+            id: i.id,
+            referrer: i.referrer,
+            startDate: i.startDate.substr(0, 10),
+            endDate: end,
+            fileProductAmount: file,
+            scannedProductAmount: scann,
+            valence: valence1
+          });
+          resolve();
+        });
+        this.archingList = lista;
+      });
       console.log(data);
     });
   }
@@ -98,4 +127,21 @@ export class HistoryArchingComponent implements OnInit {
     });
   }
 
+  async getTotalFileProductAmount(id: number) {
+    return await new Promise<number>((resolve, reject) => {
+      this.archingRequestService.getTotalFileProductAmount(id).subscribe((data) => resolve(data));
+    });
+  }
+
+  async getTotalScannedProductAmount(id: number) {
+    return await new Promise<number>((resolve, reject) => {
+      this.archingRequestService.getTotalScannedProductAmount(id).subscribe((data) => resolve(data));
+    });
+  }
+
+  async getTotalValence(id: number) {
+    return await new Promise<number>((resolve, reject) => {
+      this.archingRequestService.getTotalValence(id).subscribe((data) => resolve(data));
+    });
+  }
 }

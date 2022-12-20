@@ -56,4 +56,9 @@ export class FileProductUpdateComponent implements OnInit {
     }
   }
 
+  closse(){
+    this.isModalOpen = false;
+    this.fileProductService.triggerOpenList.emit();
+  }
+
 }

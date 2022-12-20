@@ -46,6 +46,9 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
 
     await this.getLastOneArching();
 
+    this.archingService.triggerReloadActuallyArching.subscribe(async () => {
+      await this.getLastOneArching();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -107,8 +110,9 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
       console.log(data);
       this.fileProductRequestService.deleteAllFileProducts().subscribe((dat) => {
         console.log(dat);
-        this.codesRequestService.deleteAllCodes().subscribe((da) => {
+        this.codesRequestService.deleteAllCodes().subscribe(async (da) => {
           console.log(da);
+          await this.getLastOneArching();
         });
       });
     });

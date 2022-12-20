@@ -13,5 +13,7 @@ export class FileProductService {
 
   @Output() triggerFormatedList: EventEmitter<any> = new EventEmitter();
 
+  @Output() triggerOpenList: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 }

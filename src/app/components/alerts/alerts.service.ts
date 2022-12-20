@@ -54,13 +54,10 @@ export class AlertsService {
         {
           text: 'Eliminar',
           handler: () => {
-            this.scannerRequestService.deleteScannedProduct(id).subscribe(data => {
-              console.log('Eliminado', data);
+            this.scannerRequestService.deleteScannedProduct(id).subscribe(() => {
+              console.log('Eliminado');
               this.detailArchingRequestService.deleteDetailArching(id).subscribe(() => {
-                this.scannerRequestService.getAllScannedProduct().subscribe(requestData => {
-                  console.log('Toda la lista es: ', requestData);
-                  this.scannerService.triggerUpdatedListScanned.emit(requestData);
-                });
+                this.scannerService.triggerUpdatedListScanned.emit();
               });
             });
           },
@@ -71,7 +68,7 @@ export class AlertsService {
     await alert.present();
   }
 
-  async deleteFileProduct(id: number){
+  async deleteFileProduct(id: number, scannedProductId: number){
     const alert = await this.alertController.create({
       header: '¿Eliminar producto? ',
       buttons: [
@@ -86,8 +83,9 @@ export class AlertsService {
           handler: () => {
             this.fileProductRequestService.deletelFileProduct(id).subscribe(data => {
               console.log('Eliminado', data);
-              this.scannerRequestService.getAllScannedProduct().subscribe(() => {
+              this.detailArchingRequestService.deleteDetailArching(scannedProductId).subscribe(() => {
                 this.fileProductService.triggerUpdatedFileList.emit();
+                this.scannerService.triggerUpdatedListScanned.emit();
               });
             });
           },
@@ -127,9 +125,7 @@ export class AlertsService {
                 scannedProductAmount: data.amount,
               };
               this.detailArchingRequestService.updateDetailArching(detailArching).subscribe(() => {
-                this.scannerRequestService.getAllScannedProduct().subscribe(returnData => {
-                  this.scannerService.triggerUpdatedListScanned.emit(returnData);
-                });
+                this.scannerService.triggerUpdatedListScanned.emit();
               });
             });
           },

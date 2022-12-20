@@ -46,6 +46,7 @@ export class NewArchingComponent implements OnInit {
     this.archingRequestService.newArching(arching).subscribe((status)=> {
       console.log(status);
       localStorage.setItem('arching-open', 'true');
+      this.archingService.triggerReloadActuallyArching.emit();
       this.setOpen();
     });
   }

@@ -22,7 +22,7 @@ export class CodesRequestService {
     return this.httpClient.get<FileProduct[]>(this.baseURL + '/file-products');
   }
 
-  public addCode(fileProductId: number, codesRequest: Codes) {
+  public addCode(fileProductId: number, codesRequest: Codes): Observable<Codes> {
     return this.httpClient.post<Codes>(this.baseURL + '/file-products/' + fileProductId + '/codes', codesRequest);
   }
 

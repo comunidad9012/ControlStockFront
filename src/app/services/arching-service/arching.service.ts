@@ -16,6 +16,8 @@ export class ArchingService {
 
   @Output() triggerChangePage: EventEmitter<any> = new EventEmitter();
 
+  @Output() triggerReloadActuallyArching: EventEmitter<any> = new EventEmitter();
+
 
   constructor() { }
 }

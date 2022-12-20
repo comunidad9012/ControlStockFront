@@ -8,6 +8,7 @@ import { FileProduct } from '../../entities/file-product/file-product';
 import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
 import { ArchingRequestService } from 'src/app/controller/arching/arching-request.service';
 import { DetailArching } from '../../entities/detail-arching/detail-arching';
+import { ArchingService } from 'src/app/services/arching-service/arching.service';
 
 @Component({
   selector: 'app-file-product-confirm-list',
@@ -30,7 +31,8 @@ export class FileProductConfirmListComponent implements OnInit {
     private codesRequestService: CodesRequestService,
     private scannerRequestService: ScannerRequestService,
     private detailArchingRequestService: DetailArchingRequestService,
-    private archingRequestService: ArchingRequestService
+    private archingRequestService: ArchingRequestService,
+    private archingService: ArchingService
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +110,7 @@ export class FileProductConfirmListComponent implements OnInit {
           this.archingRequestService.getLastOneArching().subscribe((data) => {
             this.detailArchingRequestService.newDetailArching(data.id, detailArching).subscribe((dat)=>{
               console.log(dat);
+              this.archingService.triggerReloadActuallyArching.emit();
             });
           });
 

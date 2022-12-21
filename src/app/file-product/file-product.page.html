@@ -15,7 +15,7 @@
         </ion-button>
     </ion-buttons>
     <app-file-product-update></app-file-product-update> <!--Modal-->
-    <ion-title>Productos por archivo</ion-title>
+    <ion-title>Productos de archivo</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -24,12 +24,12 @@
   <app-new-file-product-with-code *ngIf="isOpenForm"></app-new-file-product-with-code>
   <ion-card *ngIf="isOpenAsignation">
     <ion-card-header>
-      <ion-card-title>Asignacion de valores</ion-card-title>
+      <ion-card-title>Asignación de valores</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="newValueAsignation">
           <ion-item>
-            <ion-label>Codigo de barra</ion-label>
+            <ion-label>Código de barra</ion-label>
             <ion-select [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Seleccione uno" formControlName="barcode">
               <ion-select-option *ngFor="let fileProductNameKey of fileProductNameKeys">{{fileProductNameKey}}</ion-select-option>
             </ion-select>

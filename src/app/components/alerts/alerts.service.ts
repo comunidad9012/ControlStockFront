@@ -8,16 +8,21 @@ import { FileProduct } from 'src/app/entities/file-product/file-product';
 import { ScannerProduct } from 'src/app/entities/scanner-product/scanner-product';
 import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
 import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
+import { Arching } from '../../entities/arching/arching';
+import { format, parseISO } from 'date-fns';
+import { ArchingRequestService } from 'src/app/controller/arching/arching-request.service';
+import { ArchingService } from 'src/app/services/arching-service/arching.service';
+import { CodesRequestService } from 'src/app/controller/codes/codes-request.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlertsService {
 
-  constructor(private alertController: AlertController,
-    private scannerRequestService: ScannerRequestService,
+  constructor(private alertController: AlertController, private archingRequestService: ArchingRequestService,
+    private scannerRequestService: ScannerRequestService, private archingService: ArchingService,
     private scannerService: ScannerService, private fileProductRequestService: FileProductRequestService,
-    private fileProductService: FileProductService,
+    private fileProductService: FileProductService, private codesRequestService: CodesRequestService,
     private detailArchingRequestService: DetailArchingRequestService) { }
 
   async enterBack(){
@@ -213,7 +218,7 @@ export class AlertsService {
       subHeader: 'Puede ingresar el codigo manualmente',
       inputs: [
         {
-          placeholder: 'Codigo',
+          placeholder: 'Código',
           name: 'cod',
         },
       ],
@@ -238,6 +243,83 @@ export class AlertsService {
     const alert = await this.alertController.create({
       header: 'Arqueo no terminado',
       subHeader: 'Debe terminar el arqueo actual antes de comenzar otro',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Aceptar');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async closeArching(arching: Arching){
+    const alert = await this.alertController.create({
+      header: '¿Está seguro que quiere terminar el arqueo?',
+      subHeader: 'Si usted presiona “Aceptar” no se podrá dar marcha atrás, el arqueo finalizará y no se podrá modificar nunca más.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Cancelar');
+          },
+        },
+        {
+          text: 'Aceptar',
+          handler: () => {
+            const actualyDate = new Date();
+            const archingEndDate: Arching = {
+              endDate: format(parseISO(format(actualyDate, 'yyyy-MM-dd')), 'yyyy-MM-dd hh:mm:ss')
+            };
+            this.archingRequestService.setEndDate(archingEndDate, arching.id).subscribe((data) => {
+                console.log(data);
+                localStorage.setItem('arching-open', 'false');
+            });
+            //delete all scanned, file products and codes
+            this.codesRequestService.deleteAllFileCodes().subscribe((data) => {
+              console.log(data);
+              this.fileProductRequestService.deleteAllFileProducts().subscribe((dat) => {
+                console.log(dat);
+                this.fileProductService.triggerUpdatedFileList.emit();
+                this.scannerService.triggerUpdatedListScanned.emit();
+                this.codesRequestService.deleteAllCodes().subscribe(async (da) => {
+                  console.log(da);
+                  this.archingService.triggerReloadActuallyArching.emit();
+                });
+              });
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async amountNoNumber(amountString: any){
+    const alert = await this.alertController.create({
+      header: 'Error en cantidad',
+      subHeader: 'La cantidad del archivo con la que vinculo no es un número. Usted vínculo con "' + amountString + '"',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Aceptar');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async fileIncorrect(){
+    const alert = await this.alertController.create({
+      header: 'Error en la carga del archivo',
+      subHeader: 'El archivo ingresado no cumple con los paremetros que se requieren',
       buttons: [
         {
           text: 'Aceptar',

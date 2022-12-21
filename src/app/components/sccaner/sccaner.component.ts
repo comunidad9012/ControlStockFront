@@ -15,7 +15,7 @@ import { AlertsService } from '../alerts/alerts.service';
 })
 //Clase que sirve para hacer el alta con o sin COD
 export class SccanerComponent implements OnInit, AfterViewChecked {
-  cod = ''; // Codigo de escaneo
+  cod = ''; // Código de escaneo
   chekingByValue = true; // Indica si la busqueda sera con o sin COD. True === con
   productForm!: FormGroup;
   // Variables para el foco de amount

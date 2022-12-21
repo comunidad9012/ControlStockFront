@@ -31,10 +31,11 @@
               <h1>{{arching.startDate}}</h1>
               <p><b>Responsable:</b> {{arching.referrer}}</p>
               <p><b>Fecha de inicio:</b> {{arching.startDate}}</p>
-              <p><b>Fecha de finalizacion:</b> {{arching.endDate}}</p>
-              <p><b>Catidad de FileProduct:</b> {{arching.fileProductAmount}}</p>
-              <p><b>Cantidad de ScannedProduct:</b> {{arching.scannedProductAmount}}</p>
-              <p><b>Valance:</b> {{arching.valence}}</p>
+              <p><b>Fecha de finalización:</b> {{arching.endDate}}</p>
+              <p><b>Catidad de productos de archivo:</b> {{arching.fileProductAmount}}</p>
+              <p><b>Cantidad de productos escaneados:</b> {{arching.scannedProductAmount}}</p>
+              <ion-badge color="danger" *ngIf="arching.valence > 0 || arching.valence < 0"><b>Balance:</b> {{arching.valence}}</ion-badge>
+              <ion-badge color="success" *ngIf="arching.valence === 0"><b>Balance:</b> {{arching.valence}}</ion-badge>
             </ion-label>
           </ion-item>
         </ion-list>

@@ -11,10 +11,11 @@
             <ion-label>
               <p><b>Responsable:</b> {{arching.referrer}}</p>
               <p><b>Fecha de inicio:</b> {{arching.startDate}}</p>
-              <p><b>Fecha de finalizacion:</b> {{arching.endDate}}</p>
-              <p><b>Catidad de FileProduct:</b> {{arching.fileProductAmount}}</p>
-              <p><b>Cantidad de ScannedProduct:</b> {{arching.scannedProductAmount}}</p>
-              <p><b>Valace:</b> {{arching.valence}}</p>
+              <p><b>Fecha de finalización:</b> {{arching.endDate}}</p>
+              <p><b>Catidad de productos de archivo:</b> {{arching.fileProductAmount}}</p>
+              <p><b>Cantidad de productos escaneados:</b> {{arching.scannedProductAmount}}</p>
+              <ion-badge color="danger" *ngIf="arching.valence > 0 || arching.valence < 0"><b>Balance:</b> {{arching.valence}}</ion-badge>
+              <ion-badge color="success" *ngIf="arching.valence === 0"><b>Balance:</b> {{arching.valence}}</ion-badge>
             </ion-label>
           </ion-item>
           <div class="pading10" *ngIf="end === 'Sin finalizar'">
@@ -44,7 +45,8 @@
                   <p><b>Marca:</b> {{detailArching.mark}}</p>
                   <p><b>Cantidad escaneada:</b> {{detailArching.scannedProductAmount}}</p>
                   <p><b>Cantidad de archivo:</b> {{detailArching.fileProductAmount}}</p>
-                  <p><b>Valance:</b> {{detailArching.scannedProductAmount - detailArching.fileProductAmount}}</p>
+                  <ion-badge color="danger" *ngIf="detailArching.scannedProductAmount - detailArching.fileProductAmount > 0 || detailArching.scannedProductAmount - detailArching.fileProductAmount < 0"><b>Balance:</b> {{detailArching.scannedProductAmount - detailArching.fileProductAmount}}</ion-badge>
+                  <ion-badge color="success" *ngIf="detailArching.scannedProductAmount - detailArching.fileProductAmount === 0"><b>Balance:</b> {{detailArching.scannedProductAmount - detailArching.fileProductAmount}}</ion-badge>
                 </ion-label>
               </ion-item>
             </ion-list>

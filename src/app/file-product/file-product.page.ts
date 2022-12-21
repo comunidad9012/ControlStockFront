@@ -9,7 +9,7 @@ import { FileProductBarcode } from '../entities/file-product/file-product-barcod
 import { FileProduct } from '../entities/file-product/file-product';
 import { Codes } from '../entities/codes/codes';
 import { FileProductRequestService } from '../controller/fileProduct/file-product-request.service';
-import { CodesRequestService } from '../controller/codes/codes-request.service';
+import { AlertsService } from '../components/alerts/alerts.service';
 
 @Component({
   selector: 'app-file-product',
@@ -19,9 +19,9 @@ import { CodesRequestService } from '../controller/codes/codes-request.service';
 export class FileProductPage implements OnInit {
 
   customAlertOptions = {
-    header: 'Configuracion de archivo',
-    subHeader: 'Configure los archivos de productos',
-    message: 'Seleccione solo uno',
+    header: 'Configuración de archivo',
+    subHeader: 'Configure los archivos de producto',
+    message: 'Seleccione el correspondiente',
     translucent: true,
   };
 
@@ -40,16 +40,16 @@ export class FileProductPage implements OnInit {
 
 
   constructor(private fileProductService: FileProductService, private fileProductRequestService: FileProductRequestService,
-    private codesRequestService: CodesRequestService) {
+    private alertsService: AlertsService) {
     this.formul();
    }
 
   ngOnInit() {
-    console.log('hola',this.fileProductList);
     this.fileProductService.triggerFileProductArray.subscribe(data => {
       this.formul();
       this.openAsignation(true);
       this.isOpenAsignation = true;
+      this.fileProductList = [];
       this.fileProductList = data;
       this.fileProductNameKeys = Object.keys(this.fileProductList[0]);
     });
@@ -70,33 +70,36 @@ export class FileProductPage implements OnInit {
   }
 
 
-  addNewValueAsignation() {
+  async addNewValueAsignation() {
     const form = this.newValueAsignation.value;
-    const fileProduct: FileProductBarcode = {
-      barcode: form.barcode,
-      productName: form.productName,
-      mark: form.mark,
-      amount: form.amount
-    };
-    //console.log(fileProduct);
-    try {
-      this.fileProductList.forEach(i => {
-        this.formatedFileProductList.push({
-          barcode: i[fileProduct.barcode],
-          productName: i[fileProduct.productName],
-          mark: i[fileProduct.mark],
-          amount: i[fileProduct.amount]
+      const fileProduct: FileProductBarcode = {
+        barcode: form.barcode,
+        productName: form.productName,
+        mark: form.mark,
+        amount: form.amount
+      };
+      this.formatedFileProductList = [];
+      try {
+        this.fileProductList.forEach(i => {
+          this.formatedFileProductList.push({//
+            barcode: i[fileProduct.barcode],
+            productName: i[fileProduct.productName],
+            mark: i[fileProduct.mark],
+            amount: i[fileProduct.amount]
+          });
         });
-      });
-      this.addFileProductWithCode();
-      this.fileProductList = null;
-    } catch (error) {
-      console.log(error);
-    }
+        if (typeof this.formatedFileProductList[0].amount !== 'number') {
+          await this.alertsService.amountNoNumber(form.amount);
+        } else {
+          this.addFileProductWithCode();
+          this.fileProductList = null;
+        }
+      } catch (error) {
+        console.log(error);
+      }
   }
 
   addFileProductWithCode(){
-    console.log('La lista es: ', this.formatedFileProductList);
     const listFileProdutList: Array<{}> = [];
     this.formatedFileProductList.forEach(async i => {
       this.fileProduct = {

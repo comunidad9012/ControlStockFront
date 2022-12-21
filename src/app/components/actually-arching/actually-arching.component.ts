@@ -2,13 +2,13 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ArchingService } from 'src/app/services/arching-service/arching.service';
 import { Arching } from '../../entities/arching/arching';
 import { ArchingRequestService } from 'src/app/controller/arching/arching-request.service';
-import { format, parseISO } from 'date-fns';
 import { CodesRequestService } from 'src/app/controller/codes/codes-request.service';
 import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
 import { DetailArching } from 'src/app/entities/detail-arching/detail-arching';
 import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
 import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
 import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
+import { AlertsService } from '../alerts/alerts.service';
 
 @Component({
   selector: 'app-actually-arching',
@@ -32,9 +32,8 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
   filterTerm!: string;
 
   constructor(private archingService: ArchingService, private archingRequestService: ArchingRequestService,
-    private codesRequestService: CodesRequestService, private fileProductRequestService: FileProductRequestService,
     private detailArchingRequestService: DetailArchingRequestService,
-    private fileProductService: FileProductService, private scannerService: ScannerService) {
+    private alertsService: AlertsService) {
 
   }
 
@@ -100,28 +99,8 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
     });
   }
 
-  closeArching(){
-    const actualyDate = new Date();
-    const archingEndDate: Arching = {
-      endDate: format(parseISO(format(actualyDate, 'yyyy-MM-dd')), 'yyyy-MM-dd hh:mm:ss')
-    };
-    this.archingRequestService.setEndDate(archingEndDate, this.arching.id).subscribe((data) => {
-        console.log(data);
-        localStorage.setItem('arching-open', 'false');
-    });
-    //delete all scanned, file products and codes
-    this.codesRequestService.deleteAllFileCodes().subscribe((data) => {
-      console.log(data);
-      this.fileProductRequestService.deleteAllFileProducts().subscribe((dat) => {
-        console.log(dat);
-        this.fileProductService.triggerUpdatedFileList.emit();
-        this.scannerService.triggerUpdatedListScanned.emit();
-        this.codesRequestService.deleteAllCodes().subscribe(async (da) => {
-          console.log(da);
-          await this.getLastOneArching();
-        });
-      });
-    });
+  async closeArching(){
+    await this.alertsService.closeArching(this.arching);
   }
 
   async getAllDetailArching(id: number) {

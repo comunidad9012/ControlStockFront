@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { modalController } from '@ionic/core';
 import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
 import * as XLSX from 'xlsx';
+import { AlertsService } from '../alerts/alerts.service';
 
 @Component({
   selector: 'app-file-product-update',
@@ -14,7 +15,7 @@ export class FileProductUpdateComponent implements OnInit {
   convertedJson!: string;
   fileProductNameKeys: Array<string>;
 
-  constructor(private fileProductService: FileProductService) { }
+  constructor(private fileProductService: FileProductService, private alertsService: AlertsService) { }
 
   ngOnInit() {
     this.fileProductService.triggerOpenAchiveModule.subscribe(() => {
@@ -32,18 +33,26 @@ export class FileProductUpdateComponent implements OnInit {
       //console.log(event);
       const binaryData = event.target.result;
       const workbook = XLSX.read(binaryData, {type: 'binary'});
-      workbook.SheetNames.forEach(sheet =>{
+      workbook.SheetNames.forEach(async sheet =>{
         const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
         //console.log(data);
         this.convertedJson = JSON.stringify(data, undefined, 6);
         //console.log(this.convertedJson);
 
-        const fileProductArray = JSON.parse(this.convertedJson);
-        this.fileProductService.triggerFileProductArray.emit(fileProductArray);
-
         //this.fileProductNameKeys = Object.keys(fileProductArray[0]);
 
       });
+      const fileProductArray = JSON.parse(this.convertedJson);
+
+      try {
+        const fileProductNameKeys: Array<string> = Object.keys(fileProductArray[0]);
+        console.log('Holiss');
+        this.fileProductService.triggerFileProductArray.emit(fileProductArray);
+      } catch (error) {
+        this.alertsService.fileIncorrect();
+        this.closse();
+
+      }
       //console.log(workbook);
     };
   }

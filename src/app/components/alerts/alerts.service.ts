@@ -107,6 +107,44 @@ export class AlertsService {
     await alert.present();
   }
 
+  async fileProductUpdate(fileProduct: FileProduct) {
+    const alert = await this.alertController.create({
+      header: 'Actualizar cantidad',
+      inputs: [
+        {
+          placeholder: 'Cantidad',
+          name: 'amount',
+          type: 'number'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Actualizar',
+          handler: (alertData) => {
+            fileProduct.amount = alertData.amount;
+            this.fileProductRequestService.updateFileProduct(fileProduct.id, fileProduct).subscribe(data => {
+              console.log(data);
+              const detailArching: DetailArching = {
+                id: data.scannedProduct.id,
+                fileProductAmount: data.amount,
+              };
+              this.detailArchingRequestService.updateFileAmountDetailArching(detailArching).subscribe(() => {
+                this.scannerService.triggerUpdatedListScanned.emit();
+                this.fileProductService.triggerUpdatedFileList.emit();
+              });
+            });
+          },
+        },
+      ]
+    });
+
+    await alert.present();
+  }
+
   async productUpdate(scannedProduct: ScannerProduct) {
     const alert = await this.alertController.create({
       header: 'Actualizar cantidad',

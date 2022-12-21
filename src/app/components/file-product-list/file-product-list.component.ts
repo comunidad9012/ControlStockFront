@@ -38,7 +38,7 @@ export class FileProductListComponent implements OnInit {
   }
 
   productUpdate(fileProduct: FileProduct){
-    console.log('El file product a editar es:', fileProduct);
+    this.alertsService.fileProductUpdate(fileProduct);
   }
 
 

@@ -8,8 +8,9 @@ import { FileProduct } from 'src/app/entities/file-product/file-product';
 })
 export class FileProductRequestService {
 
-  //baseURL = 'http://34.95.208.112:8080/ControlStockBackendDeploy-0.0.1-SNAPSHOT/api';
-  baseURL = 'http://localhost:8080/api';
+  baseURL = 'http://34.95.208.112:8080/ControlStockBackend-0.0.1-SNAPSHOT/api';
+  //baseURL = 'http://34.95.208.112:8888/api';
+  //baseURL = 'http://localhost:8080/api';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -36,6 +37,10 @@ export class FileProductRequestService {
 
   public deleteAllFileProducts(): Observable<HttpStatusCode> {
     return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/file-products');
+  }
+
+  public updateFileProduct(fileProductId: number, fileProduct: FileProduct): Observable<FileProduct> {
+    return this.httpClient.put<FileProduct>(this.baseURL + '/file-products/' + fileProductId, fileProduct);
   }
 
 }

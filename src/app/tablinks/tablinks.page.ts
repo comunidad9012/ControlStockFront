@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ArchingRequestService } from '../controller/arching/arching-request.service';
 
 @Component({
   selector: 'app-tablinks',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TablinksPage implements OnInit {
 
-  constructor() { }
+  constructor(private archingRequestService: ArchingRequestService) { }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
+    await this.getLastOneArching();
+  }
+
+  async getLastOneArching(): Promise<void>{
+    return await new Promise<void>((resolve, reject) => {
+      this.archingRequestService.getLastOneArching().subscribe(data => {
+        if (data.endDate === null) {
+          localStorage.setItem('arching-open', 'true');
+        } else {
+          localStorage.setItem('arching-open', 'false');
+        }
+        resolve();
+      });
+    });
   }
 
 }

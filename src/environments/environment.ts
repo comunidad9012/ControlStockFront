@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseURL: 'http://localhost:8080/api',
+  capasitorUrl: 'http://34.95.208.112:8080/ControlStockBackend-0.0.1-SNAPSHOT/'
+  //capasitorUrl: 'http://localhost:8080/'
 };
 
 /*

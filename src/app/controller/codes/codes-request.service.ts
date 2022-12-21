@@ -3,15 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Codes } from 'src/app/entities/codes/codes';
 import { FileProduct } from 'src/app/entities/file-product/file-product';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CodesRequestService {
 
-  baseURL = 'http://34.95.208.112:8080/ControlStockBackend-0.0.1-SNAPSHOT/api';
-  //baseURL = 'http://34.95.208.112:8888/api';
-  //baseURL = 'http://localhost:8080/api';
+  baseURL = environment.baseURL;
 
   constructor(private httpClient: HttpClient) { }
 

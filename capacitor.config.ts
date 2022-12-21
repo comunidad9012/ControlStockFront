@@ -1,4 +1,5 @@
 import { CapacitorConfig } from '@capacitor/cli';
+import { environment } from './src/environments/environment';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
@@ -6,8 +7,7 @@ const config: CapacitorConfig = {
   webDir: 'www',
   bundledWebRuntime: false,
   server: {
-    url: 'http://34.95.208.112:8080/ControlStockBackend-0.0.1-SNAPSHOT/'
-    //url: 'http://34.95.208.112:8888/'
+    url: environment.capasitorUrl
   }
 };
 

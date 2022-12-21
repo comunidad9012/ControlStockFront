@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { DetailArching } from '../../entities/detail-arching/detail-arching';
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DetailArchingRequestService {
 
-  baseURL = 'http://34.95.208.112:8080/ControlStockBackend-0.0.1-SNAPSHOT/api';
-  //baseURL = 'http://34.95.208.112:8888/api';
-  //baseURL = 'http://localhost:8080/api';
+  baseURL = environment.baseURL;
 
   constructor(private httpClient: HttpClient) { }
 

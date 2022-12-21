@@ -5,7 +5,7 @@
         <ion-label>
           <ion-icon name="search-outline"></ion-icon>
         </ion-label>
-        <ion-input placeholder="Search" animated="true"></ion-input>
+        <ion-input placeholder="Search" [(ngModel)]="filterTerm" animated="true"></ion-input>
       </ion-item>
       <ion-row class="searchBar">
         <ion-col size="6" class="border-end">
@@ -25,7 +25,7 @@
     <app-calendar></app-calendar>
     <div class="table">
       <ion-content>
-        <ion-list *ngFor="let arching of archingList">
+        <ion-list *ngFor="let arching of archingList | filter: filterTerm">
           <ion-item button (click)="openArchingDetail(arching.id)">
             <ion-label>
               <h1>{{arching.startDate}}</h1>

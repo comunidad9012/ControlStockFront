@@ -8,6 +8,7 @@ import { FileProductRequestService } from 'src/app/controller/fileProduct/file-p
 import { DetailArching } from 'src/app/entities/detail-arching/detail-arching';
 import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
 import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
+import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
 
 @Component({
   selector: 'app-actually-arching',
@@ -28,11 +29,12 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
   page = true;
   end = '';
   detailArchingList: DetailArching[] = [];
+  filterTerm!: string;
 
   constructor(private archingService: ArchingService, private archingRequestService: ArchingRequestService,
     private codesRequestService: CodesRequestService, private fileProductRequestService: FileProductRequestService,
     private detailArchingRequestService: DetailArchingRequestService,
-    private fileProductService: FileProductService) {
+    private fileProductService: FileProductService, private scannerService: ScannerService) {
 
   }
 
@@ -113,6 +115,7 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
       this.fileProductRequestService.deleteAllFileProducts().subscribe((dat) => {
         console.log(dat);
         this.fileProductService.triggerUpdatedFileList.emit();
+        this.scannerService.triggerUpdatedListScanned.emit();
         this.codesRequestService.deleteAllCodes().subscribe(async (da) => {
           console.log(da);
           await this.getLastOneArching();

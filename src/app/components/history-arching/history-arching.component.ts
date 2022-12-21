@@ -21,6 +21,7 @@ export class HistoryArchingComponent implements OnInit {
   hasta = '';
   archingList: Arching[] = [];
   page = false;
+  filterTerm!: string;
 
   constructor(private archingService: ArchingService, private archingRequestService: ArchingRequestService) {
 

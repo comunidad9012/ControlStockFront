@@ -107,6 +107,7 @@ export class HistoryArchingComponent implements OnInit {
           lista.push({
             id: i.id,
             referrer: i.referrer,
+            name: i.name,
             startDate: i.startDate.substr(0, 10),
             endDate: end,
             fileProductAmount: file,

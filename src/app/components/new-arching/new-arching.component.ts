@@ -18,6 +18,7 @@ export class NewArchingComponent implements OnInit {
   constructor(private archingRequestService: ArchingRequestService, private archingService: ArchingService) {
     this.newArching = new FormGroup({
       referrer: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
     });
    }
 
@@ -40,6 +41,7 @@ export class NewArchingComponent implements OnInit {
     const actualyDate = new Date();
     const arching: Arching = {
       referrer: form.referrer,
+      name: form.name,
       startDate: format(parseISO(format(actualyDate, 'yyyy-MM-dd')), 'yyyy-MM-dd hh:mm:ss')
     };
     console.log('La hora es: ', arching.startDate);

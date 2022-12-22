@@ -4,6 +4,9 @@
         <ion-item class="searchBar width100" lines="none">
           <ion-label><ion-icon name="search-outline"></ion-icon></ion-label>
           <ion-input placeholder="Search" [(ngModel)]="filterTerm" animated="true"></ion-input>
+          <ion-button slot="end" fill="clear" (click)="deleteAllFileProducts()">
+            <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
+          </ion-button>
         </ion-item>
       </div>
     </div>

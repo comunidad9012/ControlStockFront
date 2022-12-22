@@ -80,11 +80,17 @@ export class FileProductPage implements OnInit {
       };
       this.formatedFileProductList = [];
       try {
+        let theMark = '';
         this.fileProductList.forEach(i => {
+          if (i[fileProduct.mark] === undefined) {
+            theMark = 'Sin marca';
+          } else {
+            theMark = i[fileProduct.mark];
+          };
           this.formatedFileProductList.push({//
             barcode: i[fileProduct.barcode],
             productName: i[fileProduct.productName],
-            mark: i[fileProduct.mark],
+            mark: theMark,
             amount: i[fileProduct.amount]
           });
         });

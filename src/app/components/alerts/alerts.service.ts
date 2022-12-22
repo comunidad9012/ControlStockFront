@@ -112,6 +112,41 @@ export class AlertsService {
     await alert.present();
   }
 
+  async deleteAllFileProductsAlert(){
+    const alert = await this.alertController.create({
+      header: '¿Eliminar todos los productos de archivo?',
+      subHeader: 'Una vez elimine todos los productos de archivo no los podrá volver a recuperar',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Cancelar');
+          },
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.codesRequestService.deleteAllFileCodes().subscribe(() => {
+              this.fileProductRequestService.deleteAllFileProducts().subscribe(() => {
+                this.codesRequestService.deleteAllCodes().subscribe(() => {
+                  this.archingRequestService.getLastOneArching().subscribe((data) => {
+                      this.detailArchingRequestService.deleteAllDetailArching(data.id).subscribe(() => {
+                        this.archingService.triggerReloadActuallyArching.emit();
+                        this.fileProductService.triggerUpdatedFileList.emit();
+                        this.scannerService.triggerUpdatedListScanned.emit();
+                      });
+                  });
+                });
+              });
+            });
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   async fileProductUpdate(fileProduct: FileProduct) {
     const alert = await this.alertController.create({
       header: 'Actualizar cantidad',

@@ -2,12 +2,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ArchingService } from 'src/app/services/arching-service/arching.service';
 import { Arching } from '../../entities/arching/arching';
 import { ArchingRequestService } from 'src/app/controller/arching/arching-request.service';
-import { CodesRequestService } from 'src/app/controller/codes/codes-request.service';
-import { FileProductRequestService } from 'src/app/controller/fileProduct/file-product-request.service';
 import { DetailArching } from 'src/app/entities/detail-arching/detail-arching';
 import { DetailArchingRequestService } from 'src/app/controller/detail-arching/detail-arching-request.service';
-import { FileProductService } from 'src/app/services/file-product-service/file-product.service';
-import { ScannerService } from 'src/app/services/scanner-service/scanner.service';
 import { AlertsService } from '../alerts/alerts.service';
 
 @Component({
@@ -20,6 +16,7 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
   arching: Arching = {
     id: 0,
     referrer: '',
+    name:'',
     startDate: '',
     endDate: '',
     fileProductAmount: 0,
@@ -64,6 +61,7 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
       this.arching = {
         id: dat.id,
         referrer: dat.referrer,
+        name: dat.name,
         startDate: dat.startDate.substr(0, 10),
         endDate: this.end
       };
@@ -86,6 +84,7 @@ export class ActuallyArchingComponent implements OnInit, AfterViewInit {
         this.arching = {
           id: data.id,
           referrer: data.referrer,
+          name: data.name,
           startDate: data.startDate.substr(0, 10),
           endDate: this.end
         };

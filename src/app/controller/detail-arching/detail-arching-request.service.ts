@@ -33,6 +33,10 @@ export class DetailArchingRequestService {
     return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/detail-arching/' + detailArchingId);
   }
 
+  deleteAllDetailArching(archingId: number): Observable<HttpStatusCode> {
+    return this.httpClient.delete<HttpStatusCode>(this.baseURL + '/detailarching/deleteall/' + archingId);
+  }
+
   getValence(detailArchingId: number): Observable<number>{
     return this.httpClient.get<number>(this.baseURL + '/detail-arching/' + detailArchingId + '/valance');
   }

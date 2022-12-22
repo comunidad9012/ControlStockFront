@@ -28,7 +28,8 @@
         <ion-list *ngFor="let arching of archingList | filter: filterTerm">
           <ion-item button (click)="openArchingDetail(arching.id)">
             <ion-label>
-              <h1>{{arching.startDate}}</h1>
+              <h1>{{arching.name}} {{arching.startDate}}</h1>
+              <p><b>Nombre del arqueo:</b> {{arching.name}}</p>
               <p><b>Responsable:</b> {{arching.referrer}}</p>
               <p><b>Fecha de inicio:</b> {{arching.startDate}}</p>
               <p><b>Fecha de finalización:</b> {{arching.endDate}}</p>
